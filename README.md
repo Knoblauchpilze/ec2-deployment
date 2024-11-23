@@ -18,6 +18,4 @@ As this is a project to learn things without being a money sink, some aspects of
 
 # Badges
 
-[![codecov](https://codecov.io/gh/Knoblauchpilze/ec2-deployment/branch/master/badge.svg?token=WNLIZF0FBL)](https://codecov.io/gh/Knoblauchpilze/ec2-deployment)
-
 [![Build and deploy services](https://github.com/KnoblauchPilze/ec2-deployment/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/KnoblauchPilze/ec2-deployment/actions/workflows/build-and-deploy.yml)
