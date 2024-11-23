@@ -96,7 +96,7 @@ In order to allow the CI to update and deploy the new versions of the service, t
 
 ### Convenience template
 
-In the AWS console there's already a convenience template meeting all of these requirements. It uses the `User data` mechanism to perform some configuration on the machine when it's first being booted. Is is accessible under the `ec2-postgres-docker-aws-cli` template:
+In order to make the process of launching a new instance to host the services, it is recommended to create a launch template meeting all of these requirements. It uses the `User data` mechanism to perform some configuration on the machine when it's first being booted. A suitable name for it would be for example `ec2-postgres-docker-aws-cli`:
 
 ![ec2 launch template](resources/ec2-launch-template.png)
 
