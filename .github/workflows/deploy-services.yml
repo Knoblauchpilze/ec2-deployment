@@ -44,24 +44,6 @@ jobs:
         id: deploy-services
         run: |
           echo 'deploy=${{ (github.ref == 'refs/heads/master') && (needs.detect-code-changes.outputs.ci == 'true' || needs.detect-code-changes.outputs.deployment == 'true' || needs.detect-code-changes.outputs.services == 'true') }}' >> $GITHUB_OUTPUT
-
-  verify-ssh:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup
-        run: |
-          mkdir -p ~/.ssh/
-          echo "${{ secrets.EC2_DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
-          sudo chmod 600 ~/.ssh/id_rsa
-          echo "Host *" > ~/.ssh/config
-          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
-      - name: ssh
-        run: |
-          ssh ubuntu@${{ secrets.EC2_DEPLOY_HOST }} "ls deployments"
-      - name: display
-        run: cat ~/.ssh/known_hosts
-
   backup-deployment-config:
     runs-on: ubuntu-latest
     # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds
