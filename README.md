@@ -18,4 +18,4 @@ As this is a project to learn things without being a money sink, some aspects of
 
 # Badges
 
-[![Build and deploy services](https://github.com/KnoblauchPilze/ec2-deployment/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/KnoblauchPilze/ec2-deployment/actions/workflows/build-and-deploy.yml)
+[![Deploy services](https://github.com/Knoblauchpilze/ec2-deployment/actions/workflows/deploy-services.yml/badge.svg)](https://github.com/Knoblauchpilze/ec2-deployment/actions/workflows/deploy-services.yml)
