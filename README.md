@@ -33,7 +33,6 @@ See the following links:
 - [postgresql](https://www.postgresql.org/) which can be taken from the packages with `sudo apt-get install postgresql-14` for example.
 - [docker](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) which can be installed following the instructions of the previous link.
 - [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions) which can be installed using the instructions in the previous link.
-- [node and npm](https://nodejs.org/en/download/package-manager) which can be installed using the instructions in the previous link.
 
 We also assume that this repository is cloned locally and available to use. To achieve this, just use the following command:
 
