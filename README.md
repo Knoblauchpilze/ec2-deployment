@@ -460,6 +460,10 @@ In order to clearly separate the concerns, it is quite common to rely on [subdom
 
 In addition, it is possible to use traefik to route only part of the traffic to specific containers. For example let's say we have a user-service and an order-service, we could have `api.example.com/v1/users` routed to the `user-service` contains and `api.example.com/v1/orders` routed to `order-service` by using the [PathPrefix](https://doc.traefik.io/traefik/routing/routers/#path-pathprefix-and-pathregexp) attribute in the rule of the router. The admin dashboard could be located at `admin.example.com` while the actual game/website would be at `example.com`.
 
+## Throttling
+
+Because the services are deployed on a internet facing instance, we want to make sure that we don't risk being subjected to too many requests from undesired attackers. In an attempt to mitigate this we implemented a throttling mechanism which by default allows 10 requests per second from any sources before returning `429` on new requests. This is also built-in in the [traefik](#traefik-configuration) configuration.
+
 ## Secrets in the CI
 
 The CI workflows define several secrets that are expected to be created for the repository when cloned/forked/used. Each secret should be self-explanatory based on its name. Most of them require to setup an account on one or the other service mentioned in this README.
