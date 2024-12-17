@@ -1,0 +1,31 @@
+http:
+  routers:
+    website-lobby-https:
+      entryPoints:
+        - "websecure"
+      rule: 'Host(`{{ env "DOMAIN_NAME" }}`) && PathPrefix(`/`)'
+      service: website-lobby
+      tls:
+        certResolver: letsencryptresolver
+
+    website-lobby-www-https:
+      entryPoints:
+        - "websecure"
+      rule: 'Host(`www.{{ env "DOMAIN_NAME" }}`) && PathPrefix(`/`)'
+      middlewares:
+        - "wl-redirect"
+      service: website-lobby
+      tls:
+        certResolver: letsencryptresolver
+
+  middlewares:
+    wl-redirect:
+      redirectRegex:
+        regex: '^https://www.{{ env "DOMAIN_NAME" }}/(.*)'
+        replacement: 'https://{{ env "DOMAIN_NAME" }}/${1}'
+
+  services:
+    website-lobby:
+      loadBalancer:
+        servers:
+          - url: "http://website-lobby:3001"

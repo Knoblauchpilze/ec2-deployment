@@ -24,6 +24,15 @@ services:
     environment:
       - ENV_DATABASE_PASSWORD=${ENV_GALACTIC_SOVEREIGN_DATABASE_PASSWORD}
 
+  website-lobby:
+    image: totocorpsoftwareinc/website-lobby:${WEBSITE_LOBBY_TAG}
+    container_name: website-lobby
+    restart: on-failure:5
+    networks:
+      - corp-network
+    environment:
+      - ORIGIN=${WEBSITE_LOBBY_ORIGIN:-http://localhost}
+
   user-dashboard:
     image: totocorpsoftwareinc/user-dashboard:${USER_DASHBOARD_TAG}
     container_name: user-dashboard
@@ -40,7 +49,7 @@ services:
     networks:
       - corp-network
     environment:
-      - ORIGIN=${GALACTIC_SOVEREIGN_FRONTEND_ORIGIN:-http://localhost}
+      - ORIGIN=${GALACTIC_SOVEREIGN_FRONTEND_ORIGIN:-http://galactic-sovereign.localhost}
 
   # https://www.reddit.com/r/Traefik/comments/123oz36/traefik_dashboard_access_with_staticdynamic/
   reverse-proxy:
