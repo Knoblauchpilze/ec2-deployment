@@ -3,26 +3,10 @@ http:
     galactic-sovereign-frontend-https:
       entryPoints:
         - "websecure"
-      rule: 'Host(`{{ env "DOMAIN_NAME" }}`) && PathPrefix(`/`)'
+      rule: 'Host(`galactic-sovereign.{{ env "DOMAIN_NAME" }}`) && PathPrefix(`/`)'
       service: galactic-sovereign-frontend
       tls:
         certResolver: letsencryptresolver
-
-    galactic-sovereign-frontend-www-https:
-      entryPoints:
-        - "websecure"
-      rule: 'Host(`www.{{ env "DOMAIN_NAME" }}`) && PathPrefix(`/`)'
-      middlewares:
-        - "gsf-redirect"
-      service: galactic-sovereign-frontend
-      tls:
-        certResolver: letsencryptresolver
-
-  middlewares:
-    gsf-redirect:
-      redirectRegex:
-        regex: '^https://www.{{ env "DOMAIN_NAME" }}/(.*)'
-        replacement: 'https://{{ env "DOMAIN_NAME" }}/${1}'
 
   services:
     galactic-sovereign-frontend:

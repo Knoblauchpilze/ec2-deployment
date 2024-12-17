@@ -85,6 +85,7 @@ jobs:
         run: |
           echo "ENV_USER_DATABASE_PASSWORD=${{ secrets.USER_SERVICE_DATABASE_MANAGER_PASSWORD }}" >> ./deployments/.env
           echo "ENV_GALACTIC_SOVEREIGN_DATABASE_PASSWORD=${{ secrets.GALACTIC_SOVEREIGN_DATABASE_MANAGER_PASSWORD }}" >> ./deployments/.env
+          echo "WEBSITE_LOBBY_ORIGIN=${{ secrets.WEBSITE_LOBBY_ORIGIN }}" >> ./deployments/.env
           echo "USER_DASHBOARD_ORIGIN=${{ secrets.USER_DASHBOARD_ORIGIN }}" >> ./deployments/.env
           echo "GALACTIC_SOVEREIGN_FRONTEND_ORIGIN=${{ secrets.GALACTIC_SOVEREIGN_FRONTEND_ORIGIN }}" >> ./deployments/.env
           echo "DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}" >> ./deployments/.env
@@ -94,6 +95,7 @@ jobs:
         run: |
           echo "USER_SERVICE_TAG=$(cat ./build/user-service/version.txt)" >> ./deployments/.env
           echo "GALACTIC_SOVEREIGN_SERVICE_TAG=$(cat ./build/galactic-sovereign-service/version.txt)" >> ./deployments/.env
+          echo "WEBSITE_LOBBY_TAG=$(cat ./build/website-lobby/version.txt)" >> ./deployments/.env
           echo "USER_DASHBOARD_TAG=$(cat ./build/user-dashboard/version.txt)" >> ./deployments/.env
           echo "GALACTIC_SOVEREIGN_FRONTEND_TAG=$(cat ./build/galactic-sovereign-frontend/version.txt)" >> ./deployments/.env
       - name: Install SSH keys
