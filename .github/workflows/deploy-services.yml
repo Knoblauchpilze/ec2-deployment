@@ -83,14 +83,18 @@ jobs:
       - name: Configure docker-compose deployment
         # https://deploy-preview-13474--docsdocker.netlify.app/compose/env-file/#compose-2x
         run: |
-          echo "ENV_USER_DATABASE_PASSWORD=${{ secrets.USER_SERVICE_DATABASE_MANAGER_PASSWORD }}" >> ./deployments/.env
-          echo "ENV_GALACTIC_SOVEREIGN_DATABASE_PASSWORD=${{ secrets.GALACTIC_SOVEREIGN_DATABASE_MANAGER_PASSWORD }}" >> ./deployments/.env
+          echo "ENV_USER_DATABASE_PASSWORD=$USER_SERVICE_DATABASE_PASSWORD" >> ./deployments/.env
+          echo "ENV_GALACTIC_SOVEREIGN_DATABASE_PASSWORD=$GALACTIC_SOVEREIGN_DATABASE_PASSWORD" >> ./deployments/.env
           echo "WEBSITE_LOBBY_ORIGIN=${{ secrets.WEBSITE_LOBBY_ORIGIN }}" >> ./deployments/.env
           echo "USER_DASHBOARD_ORIGIN=${{ secrets.USER_DASHBOARD_ORIGIN }}" >> ./deployments/.env
           echo "GALACTIC_SOVEREIGN_FRONTEND_ORIGIN=${{ secrets.GALACTIC_SOVEREIGN_FRONTEND_ORIGIN }}" >> ./deployments/.env
           echo "DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}" >> ./deployments/.env
           echo "TRAEFIK_USER=${{ secrets.TRAEFIK_USER }}" >> ./deployments/.env
           echo "TRAEFIK_HASHED_PASSWORD='"'${{ secrets.TRAEFIK_HASHED_PASSWORD }}'"'" >> ./deployments/.env
+        env:
+          # https://github.com/orgs/community/discussions/25651#discussioncomment-4999768
+          USER_SERVICE_DATABASE_PASSWORD: ${{ secrets.USER_SERVICE_DATABASE_MANAGER_PASSWORD }}
+          GALACTIC_SOVEREIGN_DATABASE_PASSWORD: ${{ secrets.GALACTIC_SOVEREIGN_DATABASE_MANAGER_PASSWORD }}
       - name: Configure service tags
         run: |
           echo "USER_SERVICE_TAG=$(cat ./build/user-service/version.txt)" >> ./deployments/.env
