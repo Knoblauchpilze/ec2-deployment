@@ -458,7 +458,7 @@ The configuration is replicated on the remote server and then executed remotely 
 
 In order to clearly separate the concerns, it is quite common to rely on [subdomains](https://en.wikipedia.org/wiki/Subdomain#Subdomain_usage) to route traffic to different servers/applications depending on their type. As we would need a domain name to host the website anyway, it seems like a good approach to use the subdomains to host the different facets of the service.
 
-In addition, it is possible to use traefik to route only part of the traffic to specific containers. For example let's say we have a user-service and an order-service, we could have `api.example.com/v1/users` routed to the `user-service` contains and `api.example.com/v1/orders` routed to `order-service` by using the [PathPrefix](https://doc.traefik.io/traefik/routing/routers/#path-pathprefix-and-pathregexp) attribute in the rule of the router. The admin dashboard could be located at `admin.example.com` while the actual game/website would be at `example.com`.
+In addition, it is possible to use traefik to route only part of the traffic to specific containers. For example let's say we have a user-service and an order-service, we could have `api.example.com/v1/users` routed to the `user-service` container and `api.example.com/v1/orders` routed to `order-service` by using the [PathPrefix](https://doc.traefik.io/traefik/routing/routers/#path-pathprefix-and-pathregexp) attribute in the rule of the router. The admin dashboard could be located at `admin.example.com` while the actual game/website would be at `example.com`.
 
 ## Throttling
 
