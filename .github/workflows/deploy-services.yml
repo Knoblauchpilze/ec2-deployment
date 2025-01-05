@@ -2,10 +2,12 @@ name: Deploy services
 
 on:
   push:
+    # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths
     paths:
       - ".github/workflows/**"
       - "deployments/**"
       - "build/**"
+      - '!build/template-frontend/**'
 
 # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/control-the-concurrency-of-workflows-and-jobs#example-only-cancel-in-progress-jobs-on-specific-branches
 # https://stackoverflow.com/questions/66335225/how-to-cancel-previous-runs-in-the-pr-when-you-push-new-commitsupdate-the-curre
