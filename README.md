@@ -1,6 +1,6 @@
 # ec2-deployment
 
-This repository is a tool to manage the deployment of services on an EC2 instance. This is what powers the [galactic-sovereign](https://github.com/KnoblauchPilze/galactic-sovereign) game over at [gasteropo.de](https://gasteropo.de).
+This repository is a tool to manage the deployment of services on an EC2 instance. This is what powers the [galactic-sovereign](https://github.com/Knoblauchpilze/galactic-sovereign) game over at [gasteropo.de](https://gasteropo.de).
 
 # Overview
 
