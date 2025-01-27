@@ -51,6 +51,15 @@ services:
     environment:
       - ORIGIN=${GALACTIC_SOVEREIGN_FRONTEND_ORIGIN:-http://galactic-sovereign.localhost}
 
+  qwixx-sheet-frontend:
+    image: totocorpsoftwareinc/qwixx-sheet-frontend:${QWIXX_SHEET_FRONTEND_TAG}
+    container_name: qwixx-sheet-frontend
+    restart: on-failure:5
+    networks:
+      - corp-network
+    environment:
+      - ORIGIN=${QWIXX_SHEET_FRONTEND_ORIGIN:-http://qwixx.localhost}
+
   # https://www.reddit.com/r/Traefik/comments/123oz36/traefik_dashboard_access_with_staticdynamic/
   reverse-proxy:
     image: traefik:v3.1

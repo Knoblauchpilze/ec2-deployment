@@ -1,0 +1,15 @@
+http:
+  routers:
+    qwixx-sheet-frontend-https:
+      entryPoints:
+        - "websecure"
+      rule: 'Host(`qwixx.{{ env "DOMAIN_NAME" }}`) && PathPrefix(`/`)'
+      service: qwixx-sheet-frontend
+      tls:
+        certResolver: letsencryptresolver
+
+  services:
+    qwixx-sheet-frontend:
+      loadBalancer:
+        servers:
+          - url: "http://qwixx-sheet-frontend:3001"
