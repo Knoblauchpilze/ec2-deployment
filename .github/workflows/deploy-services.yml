@@ -107,7 +107,7 @@ jobs:
           echo "WEBSITE_LOBBY_TAG=$(cat ./build/website-lobby/version.txt)" >> ./deployments/.env
           echo "USER_DASHBOARD_TAG=$(cat ./build/user-dashboard/version.txt)" >> ./deployments/.env
           echo "GALACTIC_SOVEREIGN_FRONTEND_TAG=$(cat ./build/galactic-sovereign-frontend/version.txt)" >> ./deployments/.env
-          echo "QWIXX_SHEET_FRONTEND_TAG=$(cat ./build/qwixx-sheet-frontend/version.txt)"
+          echo "QWIXX_SHEET_FRONTEND_TAG=$(cat ./build/qwixx-sheet-frontend/version.txt)" >> ./deployments/.env
       - name: Install SSH keys
         uses: shimataro/ssh-key-action@v2
         with:
