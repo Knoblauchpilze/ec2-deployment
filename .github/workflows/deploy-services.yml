@@ -92,7 +92,7 @@ jobs:
           echo "WEBSITE_LOBBY_ORIGIN=${{ secrets.WEBSITE_LOBBY_ORIGIN }}" >> ./deployments/.env
           echo "USER_DASHBOARD_ORIGIN=${{ secrets.USER_DASHBOARD_ORIGIN }}" >> ./deployments/.env
           echo "GALACTIC_SOVEREIGN_FRONTEND_ORIGIN=${{ secrets.GALACTIC_SOVEREIGN_FRONTEND_ORIGIN }}" >> ./deployments/.env
-          echo "QWIXX_SHEET_FRONTEND_ORIGIN=${{ secrets.QWIXX_SHEET_FRONTEND_ORIGIN }} >> ./deployments/.env"
+          echo "QWIXX_SHEET_FRONTEND_ORIGIN=${{ secrets.QWIXX_SHEET_FRONTEND_ORIGIN }}" >> ./deployments/.env
           echo "DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}" >> ./deployments/.env
           echo "TRAEFIK_USER=${{ secrets.TRAEFIK_USER }}" >> ./deployments/.env
           echo "TRAEFIK_HASHED_PASSWORD='"'${{ secrets.TRAEFIK_HASHED_PASSWORD }}'"'" >> ./deployments/.env
