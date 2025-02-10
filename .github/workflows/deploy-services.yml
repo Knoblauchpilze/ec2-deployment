@@ -7,9 +7,9 @@ on:
       - ".github/workflows/**"
       - "deployments/**"
       - "build/**"
-      - '!build/template-frontend/**'
-      - '!build/template-go/**'
-      - '!build/chat-server/**'
+      - "!build/template-frontend/**"
+      - "!build/template-go/**"
+      - "!build/chat-server/**"
 
 # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/control-the-concurrency-of-workflows-and-jobs#example-only-cancel-in-progress-jobs-on-specific-branches
 # https://stackoverflow.com/questions/66335225/how-to-cancel-previous-runs-in-the-pr-when-you-push-new-commitsupdate-the-curre
@@ -109,6 +109,8 @@ jobs:
           echo "GALACTIC_SOVEREIGN_FRONTEND_TAG=$(cat ./build/galactic-sovereign-frontend/version.txt)" >> ./deployments/.env
           echo "QWIXX_SHEET_FRONTEND_TAG=$(cat ./build/qwixx-sheet-frontend/version.txt)" >> ./deployments/.env
       - name: Install SSH keys
+        # https://dev.to/zellwk/deploying-to-a-server-via-ssh-and-rsync-in-a-github-action-2acd
+        # See step 5 to generate the known_hosts
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.EC2_DEPLOY_SSH_KEY }}
