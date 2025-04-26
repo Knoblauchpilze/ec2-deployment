@@ -19,47 +19,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # https://github.com/dorny/paths-filter
-  detect-code-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      ci: ${{ steps.filter.outputs.ci }}
-      deployment: ${{ steps.filter.outputs.deployment }}
-      services: ${{ steps.filter.outputs.services }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          base: ${{ github.ref_name }}
-          filters: |
-            ci:
-              - '.github/workflows/**'
-            deployment:
-              - 'deployments/**'
-            services:
-              - 'build/**'
-  analyze-deploy-status:
-    runs-on: ubuntu-latest
-    needs: [detect-code-changes]
-    outputs:
-      deploy-services: ${{ steps.deploy-services.outputs.deploy }}
-    steps:
-      - name: Detect if services should be deployed
-        id: deploy-services
-        run: |
-          echo 'deploy=${{ (github.ref == 'refs/heads/master') && (needs.detect-code-changes.outputs.ci == 'true' || needs.detect-code-changes.outputs.deployment == 'true' || needs.detect-code-changes.outputs.services == 'true') }}' >> $GITHUB_OUTPUT
   backup-deployment-config:
     runs-on: ubuntu-latest
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds
-    needs: [analyze-deploy-status]
-    # https://github.com/actions/runner/issues/491
-    # https://github.com/actions/runner/issues/2205#issuecomment-1400087739
-    if: |
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      needs.analyze-deploy-status.outputs.deploy-services == 'true'
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Back-up deployment config
         uses: appleboy/ssh-action@v1.2.2
@@ -71,14 +33,11 @@ jobs:
             rm -rf ~/deployments.bak
             mv ~/deployments ~/deployments.bak
             mkdir ~/deployments
+
   sync-deployment-configuration:
     runs-on: ubuntu-latest
-    needs: [backup-deployment-config, analyze-deploy-status]
-    if: |
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      needs.analyze-deploy-status.outputs.deploy-services == 'true'
+    needs: [backup-deployment-config]
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v4
       - name: Substitute acme email
@@ -120,14 +79,11 @@ jobs:
         # https://www.tecmint.com/rsync-local-remote-file-synchronization-commands/#3_Copy_a_Directory_from_Local_to_Remote_Server
         run: |
           rsync -avzh ./deployments ubuntu@${{ secrets.EC2_DEPLOY_HOST }}:/home/ubuntu/
+
   deploy:
     runs-on: ubuntu-latest
-    needs: [analyze-deploy-status, sync-deployment-configuration]
-    if: |
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      needs.analyze-deploy-status.outputs.deploy-services == 'true'
+    needs: [sync-deployment-configuration]
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Deploy latest services version
         uses: appleboy/ssh-action@v1.2.2
@@ -137,14 +93,11 @@ jobs:
           key: ${{ secrets.EC2_DEPLOY_SSH_KEY }}
           script: |
             docker compose -f ./deployments/compose.yaml up -d --remove-orphans
+
   clean-deployment-config-backup:
     runs-on: ubuntu-latest
-    needs: [analyze-deploy-status, deploy]
-    if: |
-      always() &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      needs.analyze-deploy-status.outputs.deploy-services == 'true'
+    needs: [deploy]
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Clean back-up of deployment config
         uses: appleboy/ssh-action@v1.2.2
