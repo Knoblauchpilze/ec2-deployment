@@ -34,7 +34,7 @@ jobs:
       - name: Check deployment status
         id: status
         run: |
-          echo "enabled='${{ env.DEPLOYMENT_ACTIVE }}'" >> $GITHUB_OUTPUT
+          echo "enabled=${{ env.DEPLOYMENT_ACTIVE }}" >> $GITHUB_OUTPUT
 
   backup-deployment-config:
     runs-on: ubuntu-latest
