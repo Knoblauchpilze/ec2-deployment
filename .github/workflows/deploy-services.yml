@@ -34,12 +34,12 @@ jobs:
       - name: Check deployment status
         id: status
         run: |
-          echo "enabled=${{ env.DEPLOYMENT_ACTIVE }}" >> $GITHUB_OUTPUT
+          echo "enabled='${{ env.DEPLOYMENT_ACTIVE }}'" >> $GITHUB_OUTPUT
 
   backup-deployment-config:
     runs-on: ubuntu-latest
     needs: [check-deployment-status]
-    if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == true
+    if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == 'true'
     steps:
       - name: Back-up deployment config
         uses: appleboy/ssh-action@v1.2.2
@@ -55,7 +55,7 @@ jobs:
   sync-deployment-configuration:
     runs-on: ubuntu-latest
     needs: [check-deployment-status, backup-deployment-config]
-    if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == true
+    if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == 'true'
     steps:
       - uses: actions/checkout@v4
       - name: Substitute acme email
@@ -101,7 +101,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [check-deployment-status, sync-deployment-configuration]
-    if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == true
+    if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == 'true'
     steps:
       - name: Deploy latest services version
         uses: appleboy/ssh-action@v1.2.2
@@ -115,7 +115,7 @@ jobs:
   clean-deployment-config-backup:
     runs-on: ubuntu-latest
     needs: [check-deployment-status, deploy]
-    if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == true
+    if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == 'true'
     steps:
       - name: Clean back-up of deployment config
         uses: appleboy/ssh-action@v1.2.2
