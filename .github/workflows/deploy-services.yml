@@ -12,6 +12,9 @@ on:
       - "!build/chat-server/**"
       - "!build/chat-app/**"
 
+env:
+  DEPLOY_ACTIVE: "true"
+
 # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/control-the-concurrency-of-workflows-and-jobs#example-only-cancel-in-progress-jobs-on-specific-branches
 # https://stackoverflow.com/questions/66335225/how-to-cancel-previous-runs-in-the-pr-when-you-push-new-commitsupdate-the-curre
 concurrency:
@@ -21,7 +24,7 @@ concurrency:
 jobs:
   backup-deployment-config:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && env.DEPLOY_ACTIVE == 'true'
     steps:
       - name: Back-up deployment config
         uses: appleboy/ssh-action@v1.2.2
@@ -37,7 +40,7 @@ jobs:
   sync-deployment-configuration:
     runs-on: ubuntu-latest
     needs: [backup-deployment-config]
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && env.DEPLOY_ACTIVE == 'true'
     steps:
       - uses: actions/checkout@v4
       - name: Substitute acme email
@@ -83,7 +86,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [sync-deployment-configuration]
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && env.DEPLOY_ACTIVE == 'true'
     steps:
       - name: Deploy latest services version
         uses: appleboy/ssh-action@v1.2.2
@@ -97,7 +100,7 @@ jobs:
   clean-deployment-config-backup:
     runs-on: ubuntu-latest
     needs: [deploy]
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && env.DEPLOY_ACTIVE == 'true'
     steps:
       - name: Clean back-up of deployment config
         uses: appleboy/ssh-action@v1.2.2
