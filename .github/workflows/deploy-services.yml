@@ -42,7 +42,7 @@ jobs:
     if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == 'true'
     steps:
       - name: Back-up deployment config
-        uses: appleboy/ssh-action@v1.2.2
+        uses: appleboy/ssh-action@v1.2.3
         with:
           host: "${{ secrets.EC2_DEPLOY_HOST }}"
           username: ubuntu
@@ -104,7 +104,7 @@ jobs:
     if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == 'true'
     steps:
       - name: Deploy latest services version
-        uses: appleboy/ssh-action@v1.2.2
+        uses: appleboy/ssh-action@v1.2.3
         with:
           host: "${{ secrets.EC2_DEPLOY_HOST }}"
           username: ubuntu
@@ -118,7 +118,7 @@ jobs:
     if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == 'true'
     steps:
       - name: Clean back-up of deployment config
-        uses: appleboy/ssh-action@v1.2.2
+        uses: appleboy/ssh-action@v1.2.3
         with:
           host: "${{ secrets.EC2_DEPLOY_HOST }}"
           username: ubuntu
