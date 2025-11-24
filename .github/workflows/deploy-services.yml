@@ -57,7 +57,7 @@ jobs:
     needs: [check-deployment-status, backup-deployment-config]
     if: github.ref == 'refs/heads/master' && needs.check-deployment-status.outputs.enabled == 'true'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Substitute acme email
         run: |
           mv deployments/traefik-template.yml deployments/traefik.yml
